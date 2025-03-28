@@ -1,7 +1,7 @@
 import debounce from 'lodash-es/debounce';
 import settings from './settings';
 import loadFont from './utils/loadFont';
-var {
+const {
   canvasHeight,
   canvasWidth,
   fontSize,
@@ -11,7 +11,7 @@ var {
   paddingX,
   hollowPath,
 } = settings;
-var font = `${fontSize}px RoGSanSrfStd-Bd, GlowSansSC-Normal-Heavy_diff, apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif`;
+const font = `${fontSize}px RoGSanSrfStd-Bd, GlowSansSC-Normal-Heavy_diff, apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif`;
 
 export default class LogoCanvas {
   public canvas: HTMLCanvasElement;
@@ -34,9 +34,9 @@ export default class LogoCanvas {
     this.bindEvent();
   }
   async draw() {
-    var loading = document.querySelector('#loading')!;
+    const loading = document.querySelector('#loading')!;
     loading.classList.remove('hidden');
-    var c = this.ctx;
+    const c = this.ctx;
     //predict canvas width
     await loadFont(this.textL + this.textR);
     loading.classList.add('hidden');
@@ -93,7 +93,7 @@ export default class LogoCanvas {
     c.globalCompositeOperation = 'source-over';
     c.fillText(this.textR, this.canvasWidthL, this.canvas.height * textBaseLine);
     c.resetTransform();
-    var graph = {
+    const graph = {
       X: this.canvasWidthL - this.canvas.height / 2 + graphOffset.X,
       Y: this.graphOffset.Y,
     };
@@ -124,13 +124,13 @@ export default class LogoCanvas {
     );
   }
   bindEvent() {
-    var process = (id: 'textL' | 'textR', el: HTMLInputElement) => {
+    const process = (id: 'textL' | 'textR', el: HTMLInputElement) => {
       this[id] = el.value;
       this.draw();
     };
-    for (var t of ['textL', 'textR']) {
-      var id = t as 'textL' | 'textR';
-      var el = document.getElementById(id)! as HTMLInputElement;
+    for (const t of ['textL', 'textR']) {
+      const id = t as 'textL' | 'textR';
+      const el = document.getElementById(id)! as HTMLInputElement;
       el.addEventListener('compositionstart', () => el.setAttribute('composing', ''));
       el.addEventListener('compositionend', () => {
         process(id, el);
@@ -148,13 +148,13 @@ export default class LogoCanvas {
     }
     document.querySelector('#save')!.addEventListener('click', () => this.saveImg());
     document.querySelector('#copy')!.addEventListener('click', () => this.copyImg());
-    var tSwitch = document.querySelector('#transparent')! as HTMLInputElement;
+    const tSwitch = document.querySelector('#transparent')! as HTMLInputElement;
     tSwitch.addEventListener('change', () => {
       this.transparentBg = tSwitch.checked;
       this.draw();
     });
-    var gx = document.querySelector('#graphX')! as HTMLInputElement;
-    var gy = document.querySelector('#graphY')! as HTMLInputElement;
+    const gx = document.querySelector('#graphX')! as HTMLInputElement;
+    const gy = document.querySelector('#graphY')! as HTMLInputElement;
     gx.addEventListener('input', () => {
       this.graphOffset.X = parseInt(gx.value);
       this.draw();
@@ -193,7 +193,7 @@ export default class LogoCanvas {
       outputCanvas = document.createElement('canvas');
       outputCanvas.width = this.textWidthL + this.textWidthR + paddingX * 2;
       outputCanvas.height = this.canvas.height;
-      var ctx = outputCanvas.getContext('2d')!;
+      const ctx = outputCanvas.getContext('2d')!;
       ctx.drawImage(
         this.canvas,
         canvasWidth / 2 - this.textWidthL - paddingX,
@@ -220,8 +220,8 @@ export default class LogoCanvas {
   }
   saveImg() {
     this.generateImg().then((blob) => {
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
       a.href = url;
       a.download = `${this.textL}${this.textR}_ba-style@nulla.top.png`;
       a.click();
@@ -229,13 +229,13 @@ export default class LogoCanvas {
     });
   }
   async copyImg() {
-    var blob = await this.generateImg();
-    var cp = [new ClipboardItem({ 'image/png': blob })];
+    const blob = await this.generateImg();
+    const cp = [new ClipboardItem({ 'image/png': blob })];
     navigator.clipboard
       .write(cp)
       .then(() => {
         console.log('image copied');
-        var msg = document.querySelector('#message-switch') as HTMLInputElement;
+        const msg = document.querySelector('#message-switch') as HTMLInputElement;
         msg.checked = true;
         setTimeout(() => (msg.checked = false), 2000);
       })
