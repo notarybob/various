@@ -2,10 +2,10 @@ import { Font } from 'fonteditor-core';
 import Fontmin from 'fontmin';
 import fs from 'fs';
 
-const G2font = Font.create(fs.readFileSync('../public/RoGSanSrfStd-Bd.otf'), {
+let G2font = Font.create(fs.readFileSync('../public/RoGSanSrfStd-Bd.otf'), {
   type: 'otf',
 });
-const G2List = G2font.find({
+let G2List = G2font.find({
   filter: (glyf) => {
     if (
       glyf.unicode &&
@@ -20,11 +20,11 @@ const G2List = G2font.find({
     return p;
   } else return p.concat(c.unicode);
 }, []);
-const GlowFont = Font.create(fs.readFileSync('../public/GlowSansSC-Normal-Heavy.otf'), {
+let GlowFont = Font.create(fs.readFileSync('../public/GlowSansSC-Normal-Heavy.otf'), {
   type: 'otf',
 });
-const GlowList = Object.keys(GlowFont.get().cmap);
-const differenceList = GlowList.filter((c) => !G2List.includes(parseInt(c)));
+let GlowList = Object.keys(GlowFont.get().cmap);
+let differenceList = GlowList.filter((c) => !G2List.includes(parseInt(c)));
 console.assert(differenceList.includes(String(parseInt('0x531a'))));
 new Fontmin()
   .src('../public/GlowSansSC-Normal-Heavy.otf')
