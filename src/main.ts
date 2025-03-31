@@ -5,6 +5,6 @@ import './i18n';
 
 (async function () {
   await loadImages();
-  let logo = new LogoCanvas();
+  const logo = new LogoCanvas();
   logo.draw();
 })();
