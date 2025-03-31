@@ -2,19 +2,19 @@ import { Font } from 'fonteditor-core';
 import Fontmin from 'fontmin';
 import fs from 'fs';
 
-const buffer = fs.readFileSync('../public/RoGSanSrfStd-Bd.otf');
-const fontPre = Font.create(buffer, {
+let buffer = fs.readFileSync('../public/RoGSanSrfStd-Bd.otf');
+let fontPre = Font.create(buffer, {
   type: 'otf',
 });
-const fontObject = fontPre.get();
-const codeList = Object.keys(fontObject.cmap)
+let fontObject = fontPre.get();
+let codeList = Object.keys(fontObject.cmap)
   .filter((n) => n >= parseInt('0x4E00') && n < parseInt('0xA000'))
   .map((n) => parseInt(n));
-const font = Font.create(buffer, {
+let font = Font.create(buffer, {
   type: 'otf',
   subset: codeList,
 });
-const result = font
+let result = font
   .find({
     filter: (glyf) =>
       !(glyf.xMin === 408 && glyf.xMax === 592 && glyf.yMin === 452 && glyf.yMax === 636),
@@ -23,7 +23,7 @@ const result = font
     if (!c.unicode) {
       return p;
     }
-    for (const u of c.unicode) {
+    for (let u of c.unicode) {
       p.push(u);
     }
     return p;
